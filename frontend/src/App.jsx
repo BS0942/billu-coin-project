@@ -60,7 +60,7 @@ export default function App() {
         )}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-700 flex justify-around py-2">
+      <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-700 flex justify-around py-3">
         {[
           { name: "Game", icon: "🎮", tab: "game" },
           { name: "Wallet", icon: "💰", tab: "wallet" },
@@ -70,7 +70,7 @@ export default function App() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex flex-col items-center text-xs ${
+            className={`flex flex-col items-center text-xs transition ${
               activeTab === tab ? "text-yellow-400" : "text-gray-400"
             }`}
           >
