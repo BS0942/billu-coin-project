@@ -2,39 +2,31 @@ import { useState } from "react";
 import "./index.css";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("game");
+  const [taps, setTaps] = useState(0);
+  const dailyTapLimit = 1000;
 
-  const cards = [
-    {
-      title: "Billu Fight Club",
-      desc: "Special event for fighters!",
-      image: "https://placehold.co/400x200?text=Fight+Club",
-    },
-    {
-      title: "Billu King",
-      desc: "Be the king of Billu Coins!",
-      image: "https://placehold.co/400x200?text=Billu+King",
-    },
-    {
-      title: "Billu Boost",
-      desc: "Boost your daily taps & income!",
-      image: "https://placehold.co/400x200?text=Billu+Boost",
-    },
-  ];
+  const handleTap = () => {
+    if (taps >= dailyTapLimit) {
+      alert("Daily tap limit reached!");
+      return;
+    }
+    setTaps(taps + 5);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0F172A] text-white">
-      {/* Top Bar */}
-      <header className="p-4 bg-[#020617] text-center text-xl font-bold">
+      {/* TOP BAR */}
+      <header className="bg-[#020617] text-center py-4 text-lg font-bold">
         🐱 Billu Coin
       </header>
 
-      {/* Top Tabs */}
+      {/* TOP TABS */}
       <div className="flex justify-around bg-[#0F172A] border-b border-gray-700">
         <button
-          onClick={() => setActiveTab("home")}
+          onClick={() => setActiveTab("game")}
           className={`flex-1 py-3 ${
-            activeTab === "home"
+            activeTab === "game"
               ? "border-b-2 border-orange-400 text-orange-400"
               : "text-gray-400"
           }`}
@@ -53,31 +45,43 @@ export default function App() {
         </button>
       </div>
 
-      {/* Cards */}
-      <main className="flex-1 overflow-y-auto p-4">
-        <div className="grid gap-4">
-          {cards.map((card, i) => (
-            <div key={i} className="bg-[#1E293B] rounded-xl overflow-hidden shadow">
-              <img src={card.image} alt={card.title} className="w-full h-40 object-cover" />
-              <div className="p-4">
-                <h2 className="text-lg font-semibold">{card.title}</h2>
-                <p className="text-gray-300">{card.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* MAIN CONTENT */}
+      <main className="flex-1 flex flex-col items-center justify-center p-4">
+        {activeTab === "game" && (
+          <div className="flex flex-col items-center gap-4">
+            <h2 className="text-2xl font-bold mb-2">🎮 Tap Game</h2>
+            <button
+              onClick={handleTap}
+              className="bg-orange-500 text-white px-10 py-6 rounded-full text-xl shadow active:scale-95 transition"
+            >
+              TAP +5 BILLU
+            </button>
+            <p className="text-gray-300">
+              Taps: {taps} / {dailyTapLimit}
+            </p>
+          </div>
+        )}
+
+        {activeTab === "social" && (
+          <div className="text-center">
+            <h2 className="text-xl font-bold">🌐 Social Media</h2>
+            <p className="text-gray-400 mt-2">
+              Follow Billu Coin on Social Media for updates!
+            </p>
+          </div>
+        )}
       </main>
 
-      {/* Bottom Nav */}
-      <nav className="flex justify-around bg-[#020617] border-t border-gray-700 py-2">
+      {/* BOTTOM NAVIGATION */}
+      <nav className="flex justify-around bg-[#020617] border-t border-gray-700 py-2 fixed bottom-0 left-0 w-full">
         <button
-          onClick={() => setActiveTab("home")}
+          onClick={() => setActiveTab("game")}
           className={`flex flex-col items-center ${
-            activeTab === "home" ? "text-orange-400" : "text-gray-400"
+            activeTab === "game" ? "text-orange-400" : "text-gray-400"
           }`}
         >
           <span className="text-2xl">🏠</span>
-          <span className="text-xs">Home</span>
+          <span className="text-xs">Game</span>
         </button>
         <button
           onClick={() => setActiveTab("wallet")}
