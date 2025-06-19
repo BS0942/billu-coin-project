@@ -49,3 +49,15 @@ body {
   font-size: 18px;
   cursor: pointer;
 }
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-screen img {
+  width: 200px;
+}
