@@ -11,7 +11,7 @@ export default function App() {
   const dailyTapLimit = 1000;
 
   useEffect(() => {
-    // Dummy loading delay (2 seconds)
+    // Dummy loading delay for 2 seconds
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -22,7 +22,7 @@ export default function App() {
       return;
     }
 
-    const userid = "123"; // ✅ Real Telegram UserID would come here
+    const userid = "123"; // ✅ Replace with real Telegram UserID
 
     const res = await fetch('https://billu-coin-project.onrender.com/api/tap', {
       method: 'POST',
@@ -37,8 +37,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="loading-screen" style={{ textAlign: 'center', marginTop: '100px' }}>
-        <img src={hamsterLoading} alt="Loading..." style={{ width: '200px' }} />
+      <div className="loading-screen">
+        <img src={hamsterLoading} alt="Loading..." />
         <h2>Loading...</h2>
       </div>
     );
@@ -48,7 +48,7 @@ export default function App() {
     <div className="app">
       <div className="content">
         {activeTab === 'game' && (
-          <div className="flex flex-col items-center p-4">
+          <div className="flex flex-col items-center">
             <h2 className="text-xl font-bold mb-4">🎮 Tap Game</h2>
             <button
               onClick={handleTap}
@@ -61,7 +61,7 @@ export default function App() {
         )}
 
         {activeTab === 'wallet' && (
-          <div className="p-4">
+          <div>
             <h2 className="text-xl font-bold mb-4">💰 Wallet</h2>
             <p>Balance: <strong>{balance} BILLU</strong></p>
             <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">
@@ -71,7 +71,7 @@ export default function App() {
         )}
 
         {activeTab === 'premium' && (
-          <div className="p-4">
+          <div>
             <h2 className="text-xl font-bold mb-4">🌟 Premium Packages</h2>
             <ul className="space-y-3">
               <li className="border p-3 rounded shadow">🥉 Bronze - $20 - 2500 taps/day</li>
@@ -82,7 +82,7 @@ export default function App() {
         )}
 
         {activeTab === 'profile' && (
-          <div className="p-4">
+          <div>
             <h2 className="text-xl font-bold mb-4">👤 Profile</h2>
             <p>Username: @username</p>
             <p className="mt-2">Referral Link:</p>
