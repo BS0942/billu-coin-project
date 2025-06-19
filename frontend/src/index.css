@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply h-full;
+  @apply bg-[#0F172A];
 }
