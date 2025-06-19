@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Gamepad, Wallet, Crown, User } from "lucide-react";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("game");
@@ -29,7 +28,7 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
       {/* Content */}
-      <main className="flex-1 overflow-y-auto px-4 pt-8 pb-28">
+      <main className="flex-1 overflow-y-auto p-4 pb-24">
         {activeTab === "game" && (
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-6">🎮 Tap Game</h1>
@@ -52,8 +51,8 @@ export default function App() {
 
         {activeTab === "premium" && (
           <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4">🌟 Premium</h1>
-            <p className="text-xl">Coming Soon...</p>
+            <h1 className="text-3xl font-bold mb-4">👑 Premium</h1>
+            <p className="text-xl">Exclusive benefits coming soon!</p>
           </div>
         )}
 
@@ -67,20 +66,32 @@ export default function App() {
 
       {/* Bottom Navbar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 flex justify-around py-2">
-        <button onClick={() => setActiveTab("game")} className="flex flex-col items-center text-xs">
-          <Gamepad className="w-6 h-6 mb-1" />
+        <button
+          onClick={() => setActiveTab("game")}
+          className={`flex flex-col items-center text-xs ${activeTab === "game" ? "text-yellow-400" : "text-gray-300"}`}
+        >
+          <span className="text-2xl">🎮</span>
           Game
         </button>
-        <button onClick={() => setActiveTab("wallet")} className="flex flex-col items-center text-xs">
-          <Wallet className="w-6 h-6 mb-1" />
+        <button
+          onClick={() => setActiveTab("wallet")}
+          className={`flex flex-col items-center text-xs ${activeTab === "wallet" ? "text-yellow-400" : "text-gray-300"}`}
+        >
+          <span className="text-2xl">💰</span>
           Wallet
         </button>
-        <button onClick={() => setActiveTab("premium")} className="flex flex-col items-center text-xs">
-          <Crown className="w-6 h-6 mb-1" />
+        <button
+          onClick={() => setActiveTab("premium")}
+          className={`flex flex-col items-center text-xs ${activeTab === "premium" ? "text-yellow-400" : "text-gray-300"}`}
+        >
+          <span className="text-2xl">👑</span>
           Premium
         </button>
-        <button onClick={() => setActiveTab("profile")} className="flex flex-col items-center text-xs">
-          <User className="w-6 h-6 mb-1" />
+        <button
+          onClick={() => setActiveTab("profile")}
+          className={`flex flex-col items-center text-xs ${activeTab === "profile" ? "text-yellow-400" : "text-gray-300"}`}
+        >
+          <span className="text-2xl">👤</span>
           Profile
         </button>
       </nav>
