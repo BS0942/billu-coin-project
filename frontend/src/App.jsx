@@ -13,16 +13,28 @@ export default function App() {
       return;
     }
 
-    // Example API call to backend tap
-    const userid = "123"; // Replace with real Telegram UserID
-    const res = await fetch('http://localhost:3000/api/tap', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userid })
-    });
-    const data = await res.json();
-    setBalance(data.balance);
-    setTaps(data.taps);
+    // Use your deployed backend
+    const userid = "8003246405"; // your real Telegram user ID (owner)
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://billu-coin-project.onrender.com";
+
+    try {
+      const res = await fetch(`${backendUrl}/api/tap`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userid })
+      });
+
+      if (!res.ok) {
+        throw new Error('API request failed');
+      }
+
+      const data = await res.json();
+      setBalance(data.balance);
+      setTaps(data.taps);
+    } catch (error) {
+      console.error('Tap failed:', error);
+      alert('Tap failed! Please check connection.');
+    }
   };
 
   return (
@@ -65,12 +77,12 @@ export default function App() {
         {activeTab === 'profile' && (
           <div>
             <h2 className="text-xl font-bold mb-4">👤 Profile</h2>
-            <p>Username: @username</p>
+            <p>Username: @billu_coin_bot</p>
             <p className="mt-2">Referral Link:</p>
             <input
               className="w-full p-2 border rounded mt-1"
               readOnly
-              value="https://t.me/billu_coin_bot?start=123456"
+              value="https://t.me/billu_coin_bot?start=8003246405"
             />
           </div>
         )}
