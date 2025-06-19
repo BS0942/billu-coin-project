@@ -9,90 +9,86 @@ export default function App() {
 
   const handleTap = async () => {
     if (taps >= dailyTapLimit) {
-      alert('Daily tap limit reached!');
+      alert('🚫 Daily tap limit reached!');
       return;
     }
 
-    // Use your deployed backend
-    const userid = "8003246405"; // your real Telegram user ID (owner)
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://billu-coin-project.onrender.com";
-
-    try {
-      const res = await fetch(`${backendUrl}/api/tap`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userid })
-      });
-
-      if (!res.ok) {
-        throw new Error('API request failed');
-      }
-
-      const data = await res.json();
-      setBalance(data.balance);
-      setTaps(data.taps);
-    } catch (error) {
-      console.error('Tap failed:', error);
-      alert('Tap failed! Please check connection.');
-    }
+    const userid = "123"; // Telegram UserID or dynamic
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tap`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userid })
+    });
+    const data = await res.json();
+    setBalance(data.balance);
+    setTaps(data.taps);
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 p-4">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-purple-700 to-pink-500 text-white font-sans">
+      <header className="p-4 text-center text-3xl font-bold">
+        🎮 Billu Coin Tap Game
+      </header>
+
+      <main className="flex-1 flex flex-col items-center justify-center p-6">
         {activeTab === 'game' && (
-          <div className="flex flex-col items-center">
-            <h2 className="text-xl font-bold mb-4">🎮 Tap Game</h2>
+          <div className="text-center">
             <button
               onClick={handleTap}
-              className="bg-blue-500 text-white px-8 py-4 rounded-full text-2xl shadow active:scale-95 transition"
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-10 py-5 rounded-full text-3xl font-bold shadow-lg hover:scale-105 active:scale-95 transition"
             >
-              TAP +5 BILLU
+              TAP +5 BILLU 🚀
             </button>
-            <p className="mt-4 text-gray-700">Taps: {taps} / {dailyTapLimit}</p>
+            <p className="mt-6 text-lg">🔥 Taps: <b>{taps}</b> / {dailyTapLimit}</p>
           </div>
         )}
 
         {activeTab === 'wallet' && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">💰 Wallet</h2>
-            <p>Balance: <strong>{balance} BILLU</strong></p>
-            <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">
-              Buy in Pre-sale
+          <div className="text-center">
+            <h2 className="text-2xl mb-4">💰 My Wallet</h2>
+            <p className="text-xl">Balance: <b>{balance} BILLU</b></p>
+            <button className="mt-6 bg-green-400 text-black px-6 py-3 rounded-full font-bold shadow hover:scale-105 active:scale-95 transition">
+              Buy in Pre-sale 💎
             </button>
           </div>
         )}
 
         {activeTab === 'premium' && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">🌟 Premium Packages</h2>
-            <ul className="space-y-3">
-              <li className="border p-3 rounded shadow">🥉 Bronze - $20 - 2500 taps/day</li>
-              <li className="border p-3 rounded shadow">🥈 Silver - $40 - 5500 taps/day</li>
-              <li className="border p-3 rounded shadow">🥇 Gold - $50 - 7500 taps/day</li>
-            </ul>
+          <div className="text-center">
+            <h2 className="text-2xl mb-4">🌟 Premium Packages</h2>
+            <div className="space-y-4">
+              <div className="bg-white text-black rounded-lg p-4 shadow hover:scale-105 transition">
+                🥉 Bronze — $20 — 2500 taps/day
+              </div>
+              <div className="bg-white text-black rounded-lg p-4 shadow hover:scale-105 transition">
+                🥈 Silver — $40 — 5500 taps/day
+              </div>
+              <div className="bg-white text-black rounded-lg p-4 shadow hover:scale-105 transition">
+                🥇 Gold — $50 — 7500 taps/day
+              </div>
+            </div>
           </div>
         )}
 
         {activeTab === 'profile' && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">👤 Profile</h2>
-            <p>Username: @billu_coin_bot</p>
+          <div className="text-center">
+            <h2 className="text-2xl mb-4">👤 Profile</h2>
+            <p>Username: <b>@username</b></p>
             <p className="mt-2">Referral Link:</p>
             <input
-              className="w-full p-2 border rounded mt-1"
+              className="mt-2 w-full max-w-md p-3 rounded-lg text-black"
+              value="https://t.me/billu_coin_bot?start=123456"
               readOnly
-              value="https://t.me/billu_coin_bot?start=8003246405"
             />
           </div>
         )}
-      </div>
+      </main>
 
-      <nav className="flex justify-around border-t p-2 bg-white shadow-md">
-        <button onClick={() => setActiveTab('game')}>🎮 Game</button>
-        <button onClick={() => setActiveTab('wallet')}>💰 Wallet</button>
-        <button onClick={() => setActiveTab('premium')}>🌟 Premium</button>
-        <button onClick={() => setActiveTab('profile')}>👤 Profile</button>
+      <nav className="flex justify-around p-4 bg-black bg-opacity-30 backdrop-blur border-t border-white/20">
+        <button onClick={() => setActiveTab('game')} className={`${activeTab === 'game' ? 'font-bold underline' : ''}`}>🎮 Game</button>
+        <button onClick={() => setActiveTab('wallet')} className={`${activeTab === 'wallet' ? 'font-bold underline' : ''}`}>💰 Wallet</button>
+        <button onClick={() => setActiveTab('premium')} className={`${activeTab === 'premium' ? 'font-bold underline' : ''}`}>🌟 Premium</button>
+        <button onClick={() => setActiveTab('profile')} className={`${activeTab === 'profile' ? 'font-bold underline' : ''}`}>👤 Profile</button>
       </nav>
     </div>
   );
