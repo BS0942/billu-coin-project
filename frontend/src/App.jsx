@@ -1,4 +1,5 @@
 // src/App.jsx
+
 import { useState, useEffect } from 'react';
 import hamsterLoading from './assets/hamster_loading.gif';
 
@@ -10,6 +11,7 @@ export default function App() {
   const dailyTapLimit = 1000;
 
   useEffect(() => {
+    // Dummy loading delay for 2 seconds
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -20,12 +22,14 @@ export default function App() {
       return;
     }
 
-    const userid = "123"; // Replace with real user id
+    const userid = "123"; // ✅ Replace with real Telegram UserID
+
     const res = await fetch('https://billu-coin-project.onrender.com/api/tap', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userid })
+      body: JSON.stringify({ userid }),
     });
+
     const data = await res.json();
     setBalance(data.balance);
     setTaps(data.taps);
@@ -33,82 +37,69 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-white">
-        <img src={hamsterLoading} alt="Loading..." className="w-36 h-36 animate-spin-slow" />
-        <h2 className="mt-6 text-lg font-semibold text-gray-700">Loading...</h2>
+      <div className="loading-screen">
+        <img src={hamsterLoading} alt="Loading..." />
+        <h2>Loading...</h2>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <main className="flex-1 p-6 overflow-y-auto">
+    <div className="app">
+      <div className="content">
         {activeTab === 'game' && (
           <div className="flex flex-col items-center">
-            <h1 className="text-2xl font-bold mb-6">🎮 Tap Game</h1>
+            <h2 className="text-xl font-bold mb-4">🎮 Tap Game</h2>
             <button
               onClick={handleTap}
-              className="bg-indigo-600 text-white px-10 py-5 rounded-full text-2xl font-bold shadow-lg active:scale-95 transition"
+              className="bg-blue-500 text-white px-8 py-4 rounded-full text-2xl shadow active:scale-95 transition"
             >
               TAP +5 BILLU
             </button>
-            <p className="mt-6 text-gray-700 text-lg">Taps: {taps} / {dailyTapLimit}</p>
+            <p className="mt-4 text-gray-700">Taps: {taps} / {dailyTapLimit}</p>
           </div>
         )}
 
         {activeTab === 'wallet' && (
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-6">💰 Wallet</h1>
-            <p className="text-lg mb-4">Balance: <strong>{balance} BILLU</strong></p>
-            <button className="bg-green-600 text-white px-6 py-3 rounded-full shadow-md">
+          <div>
+            <h2 className="text-xl font-bold mb-4">💰 Wallet</h2>
+            <p>Balance: <strong>{balance} BILLU</strong></p>
+            <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">
               Buy in Pre-sale
             </button>
           </div>
         )}
 
         {activeTab === 'premium' && (
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-6">🌟 Premium Packages</h1>
-            <ul className="space-y-4">
-              <li className="border p-4 rounded-xl shadow">🥉 Bronze - $20 - 2500 taps/day</li>
-              <li className="border p-4 rounded-xl shadow">🥈 Silver - $40 - 5500 taps/day</li>
-              <li className="border p-4 rounded-xl shadow">🥇 Gold - $50 - 7500 taps/day</li>
+          <div>
+            <h2 className="text-xl font-bold mb-4">🌟 Premium Packages</h2>
+            <ul className="space-y-3">
+              <li className="border p-3 rounded shadow">🥉 Bronze - $20 - 2500 taps/day</li>
+              <li className="border p-3 rounded shadow">🥈 Silver - $40 - 5500 taps/day</li>
+              <li className="border p-3 rounded shadow">🥇 Gold - $50 - 7500 taps/day</li>
             </ul>
           </div>
         )}
 
         {activeTab === 'profile' && (
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-6">👤 Profile</h1>
+          <div>
+            <h2 className="text-xl font-bold mb-4">👤 Profile</h2>
             <p>Username: @username</p>
-            <p className="mt-4">Referral Link:</p>
+            <p className="mt-2">Referral Link:</p>
             <input
+              className="w-full p-2 border rounded mt-1"
               readOnly
               value="https://t.me/billu_coin_bot?start=123456"
-              className="w-full mt-2 p-3 border rounded"
             />
           </div>
         )}
-      </main>
+      </div>
 
-      {/* Bottom Nav: Large HamsterVerse Style */}
-      <nav className="flex justify-around items-center border-t bg-black text-white py-3">
-        <button onClick={() => setActiveTab('game')} className="flex flex-col items-center">
-          <span className="text-2xl">🎮</span>
-          <span className="text-xs mt-1">Game</span>
-        </button>
-        <button onClick={() => setActiveTab('wallet')} className="flex flex-col items-center">
-          <span className="text-2xl">💰</span>
-          <span className="text-xs mt-1">Wallet</span>
-        </button>
-        <button onClick={() => setActiveTab('premium')} className="flex flex-col items-center">
-          <span className="text-2xl">🌟</span>
-          <span className="text-xs mt-1">Premium</span>
-        </button>
-        <button onClick={() => setActiveTab('profile')} className="flex flex-col items-center">
-          <span className="text-2xl">👤</span>
-          <span className="text-xs mt-1">Profile</span>
-        </button>
+      <nav className="flex justify-around border-t p-2 bg-white shadow-md">
+        <button onClick={() => setActiveTab('game')}>🎮 Game</button>
+        <button onClick={() => setActiveTab('wallet')}>💰 Wallet</button>
+        <button onClick={() => setActiveTab('premium')}>🌟 Premium</button>
+        <button onClick={() => setActiveTab('profile')}>👤 Profile</button>
       </nav>
     </div>
   );
