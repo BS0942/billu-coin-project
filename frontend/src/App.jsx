@@ -1,23 +1,22 @@
-// src/App.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Gamepad, Wallet, Crown, User } from "lucide-react";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("game");
+  const [activeTab, setActiveTab] = useState('game');
   const [balance, setBalance] = useState(0);
   const [taps, setTaps] = useState(0);
   const dailyTapLimit = 1000;
 
   const handleTap = async () => {
     if (taps >= dailyTapLimit) {
-      alert("Daily tap limit reached!");
+      alert('Daily tap limit reached!');
       return;
     }
-
-    const userid = "123"; // Demo ID
+    const userid = "123"; // Example
     const res = await fetch('https://billu-coin-project.onrender.com/api/tap', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userid })
+      body: JSON.stringify({ userid }),
     });
     const data = await res.json();
     setBalance(data.balance);
@@ -25,87 +24,60 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 pb-16">
-      <div className="flex-1 p-4">
-        {activeTab === "game" && (
+    <div className="flex flex-col h-screen bg-gray-900 text-white">
+      <main className="flex-1 p-4 overflow-auto">
+        {activeTab === 'game' && (
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
-              🎮 Tap Game
-            </h2>
+            <h1 className="text-2xl font-bold mb-4">🎮 Tap Game</h1>
             <button
               onClick={handleTap}
-              className="bg-blue-500 text-white px-6 py-3 rounded-full text-lg shadow active:scale-95 transition"
+              className="bg-blue-600 text-white px-6 py-3 rounded-full mb-4"
             >
               TAP +5 BILLU
             </button>
-            <p className="mt-4">Taps: {taps} / {dailyTapLimit}</p>
+            <p>Taps: {taps} / {dailyTapLimit}</p>
           </div>
         )}
 
-        {activeTab === "wallet" && (
+        {activeTab === 'wallet' && (
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">💰 Wallet</h2>
-            <p className="text-lg">Balance: <strong>{balance} BILLU</strong></p>
-            <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">
-              Buy in Pre-sale
-            </button>
+            <h1 className="text-2xl font-bold mb-4">💰 Wallet</h1>
+            <p>Balance: {balance} BILLU</p>
           </div>
         )}
 
-        {activeTab === "premium" && (
+        {activeTab === 'premium' && (
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">👑 Premium Packages</h2>
-            <ul className="space-y-3 text-left max-w-xs mx-auto">
-              <li className="border p-3 rounded shadow">🥉 Bronze - $20 - 2500 taps/day</li>
-              <li className="border p-3 rounded shadow">🥈 Silver - $40 - 5500 taps/day</li>
-              <li className="border p-3 rounded shadow">🥇 Gold - $50 - 7500 taps/day</li>
-            </ul>
+            <h1 className="text-2xl font-bold mb-4">🌟 Premium</h1>
+            <p>Coming soon...</p>
           </div>
         )}
 
-        {activeTab === "profile" && (
+        {activeTab === 'profile' && (
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">👤 Profile</h2>
-            <p>Username: @username</p>
-            <p className="mt-2">Referral Link:</p>
-            <input
-              className="w-full p-2 border rounded mt-1"
-              readOnly
-              value="https://t.me/billu_coin_bot?start=123456"
-            />
+            <h1 className="text-2xl font-bold mb-4">👤 Profile</h1>
+            <p>@billu_coin_bot</p>
           </div>
         )}
-      </div>
+      </main>
 
-      {/* ✅ Fixed Bottom Navbar */}
-      <nav className="fixed bottom-0 left-0 w-full bg-white border-t flex justify-around py-2">
-        <button
-          onClick={() => setActiveTab("game")}
-          className={`flex flex-col items-center ${activeTab === "game" ? "text-blue-600" : "text-gray-500"}`}
-        >
-          🎮
-          <span className="text-xs">Game</span>
+      {/* BOTTOM NAVBAR */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 flex justify-around py-2 border-t border-gray-700">
+        <button onClick={() => setActiveTab('game')} className="flex flex-col items-center text-xs">
+          <Gamepad className="h-6 w-6" />
+          Game
         </button>
-        <button
-          onClick={() => setActiveTab("wallet")}
-          className={`flex flex-col items-center ${activeTab === "wallet" ? "text-blue-600" : "text-gray-500"}`}
-        >
-          💰
-          <span className="text-xs">Wallet</span>
+        <button onClick={() => setActiveTab('wallet')} className="flex flex-col items-center text-xs">
+          <Wallet className="h-6 w-6" />
+          Wallet
         </button>
-        <button
-          onClick={() => setActiveTab("premium")}
-          className={`flex flex-col items-center ${activeTab === "premium" ? "text-blue-600" : "text-gray-500"}`}
-        >
-          👑
-          <span className="text-xs">Premium</span>
+        <button onClick={() => setActiveTab('premium')} className="flex flex-col items-center text-xs">
+          <Crown className="h-6 w-6" />
+          Premium
         </button>
-        <button
-          onClick={() => setActiveTab("profile")}
-          className={`flex flex-col items-center ${activeTab === "profile" ? "text-blue-600" : "text-gray-500"}`}
-        >
-          👤
-          <span className="text-xs">Profile</span>
+        <button onClick={() => setActiveTab('profile')} className="flex flex-col items-center text-xs">
+          <User className="h-6 w-6" />
+          Profile
         </button>
       </nav>
     </div>
